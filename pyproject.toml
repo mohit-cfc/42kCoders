@@ -1,0 +1,8 @@
+[tool.uv.workspace]
+members = [
+  "apps/backend",
+  "mcp/merchant-mcp",
+  "mcp/travel-mcp",
+  "mcp/support-mcp",
+  "packages/contracts"
+]

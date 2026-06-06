@@ -1,0 +1,17 @@
+{
+  "name": "paytm-hackathon-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:mobile": "turbo dev --filter=mobile",
+    "dev:backend": "turbo dev --filter=backend",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "setup-python": "turbo run setup-python"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.4"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
