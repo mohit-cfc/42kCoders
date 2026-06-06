@@ -1,6 +1,6 @@
 import re
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 UPI_RE = re.compile(r"^[a-zA-Z0-9._-]+@[a-zA-Z]+$")
 
@@ -9,7 +9,8 @@ class TextSearchRequest(BaseModel):
     query: str
     lat: float
     lng: float
-    radius_km: float = 2.0
+    # Hyperlocal: bounded to (0, 10] km. Frontend may expose this as a slider.
+    radius_km: float = Field(default=2.0, gt=0, le=10)
 
 
 class VendorOut(BaseModel):
@@ -27,6 +28,11 @@ class SearchResponse(BaseModel):
     vendors: list[VendorOut]
     interpreted_query: str
     total: int
+
+
+class VoiceSearchResponse(SearchResponse):
+    # The STT transcript, so the client can show the user what was heard.
+    transcript: str
 
 
 class VendorCreate(BaseModel):
