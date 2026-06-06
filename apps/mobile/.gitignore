@@ -1,0 +1,27 @@
+# OSX
+.DS_Store
+
+# Android / IntelliJ
+android/build/
+android/app/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+android/.cxx/
+*.iml
+*.hprof
+*.keystore
+!android/app/debug.keystore
+
+# node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# RN / Metro
+*.jsbundle
+.metro-health-check*
+
+# env
+.env
+.env.local
