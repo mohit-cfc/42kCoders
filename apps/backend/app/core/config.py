@@ -1,0 +1,16 @@
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/dhundho"
+    SARVAM_API_KEY: str = ""
+    GEMINI_API_KEY: str = ""
+    ALLOWED_ORIGINS: str = "*"
+
+    MAX_RESULTS: int = 5
+    DEFAULT_RADIUS_KM: float = 2.0
+
+
+settings = Settings()
