@@ -8,6 +8,8 @@ from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 # Parameterized to avoid injection (note the safe '%' || :keyword || '%').
+# Explicit ::text casts on the nullable params: asyncpg can't infer a type for a bare
+# `:param IS NULL` and raises AmbiguousParameterError without them.
 SEARCH_SQL = text(
     """
     SELECT s.id::text AS id,
@@ -20,10 +22,10 @@ SEARCH_SQL = text(
            ST_Distance(s.location, ST_MakePoint(:lng, :lat)::geography) AS distance_m
     FROM shops s
     WHERE ST_DWithin(s.location, ST_MakePoint(:lng, :lat)::geography, :radius_m)
-      AND (:category IS NULL OR s.category_id = :category)
-      AND (:keyword IS NULL
-           OR s.title ILIKE '%' || :keyword || '%'
-           OR s.description ILIKE '%' || :keyword || '%')
+      AND (CAST(:category AS text) IS NULL OR s.category_id = CAST(:category AS text))
+      AND (CAST(:keyword AS text) IS NULL
+           OR s.title ILIKE '%' || CAST(:keyword AS text) || '%'
+           OR s.description ILIKE '%' || CAST(:keyword AS text) || '%')
       AND s.is_active = true
     ORDER BY distance_m ASC
     LIMIT :limit
